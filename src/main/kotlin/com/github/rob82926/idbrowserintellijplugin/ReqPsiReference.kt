@@ -33,7 +33,7 @@ class ReqPsiReference(
                 MyProjectService.getInstance(project).load(url)
 
                 // Ensure the tool window is visible so the user sees the result
-                val toolWindow = ToolWindowManager.getInstance(project).getToolWindow("toolWindow")
+                val toolWindow = ToolWindowManager.getInstance(project).getToolWindow("ID Browser")
                 toolWindow?.show()
             }
 

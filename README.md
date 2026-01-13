@@ -18,8 +18,9 @@
 - [ ] Configure the [CODECOV_TOKEN](https://docs.codecov.com/docs/quick-start) secret for automated test coverage reports on PRs
 
 <!-- Plugin description -->
-This plugin to to view web content based on identifiers such as MY_REQ_0006 in code files.
-Use the plug settings (Settings=>Tools+>ID Browser) to set the URL and search patterns for the identifiers.
+This plugin is to view web content based on identifiers such as MY_REQ_0006 in code files. 
+The plugin could be setup to load https://www.duckduckgo.com/?q=MY_REQ_0006 when this is clicked for example.
+Use the plugin settings (Settings => Tools => ID Browser) to set the URL and search patterns for the identifiers.
 Ctrl + Click the identifiers to see the relevant web content in the plugin window.
 <!-- Plugin description end -->
 

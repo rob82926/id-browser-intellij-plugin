@@ -9,7 +9,7 @@ import com.intellij.openapi.components.*
 )
 class ReqSettingsState : PersistentStateComponent<ReqSettingsState> {
     var regex: String = "REQ\\d+"
-    var urlTemplate: String = "http://www.google.com/?q=%s"
+    var urlTemplate: String = "https://www.duckduckgo.com/?q=%s"
 
     override fun getState(): ReqSettingsState = this
 

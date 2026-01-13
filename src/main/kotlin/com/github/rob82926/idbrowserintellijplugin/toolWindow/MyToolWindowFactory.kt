@@ -24,7 +24,7 @@ class MyToolWindowFactory : ToolWindowFactory {
         MyProjectService.getInstance(project).browser = browser
         MyProjectService
             .getInstance(project)
-            .load("https://www.google.com/")
+            .load("")
     }
 
     override fun shouldBeAvailable(project: Project) = true

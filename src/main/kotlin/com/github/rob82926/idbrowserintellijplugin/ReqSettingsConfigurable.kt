@@ -23,10 +23,10 @@ class ReqSettingsConfigurable : Configurable {
         regexField = JTextField(20)
         urlField = JTextField(20)
 
-        panel.add(JLabel("Regex pattern:"))
+        panel.add(JLabel("Regex pattern: e.g. REQ\\d+ would match REQ0006"))
         panel.add(regexField)
         panel.add(Box.createVerticalStrut(10))
-        panel.add(JLabel("URL template (use %s for match):"))
+        panel.add(JLabel("URL template (use %s for match): e.g. https://www.duckduckgo.com/?q=%s"))
         panel.add(urlField)
 
         // Reset the fields to the stored state immediately after creation

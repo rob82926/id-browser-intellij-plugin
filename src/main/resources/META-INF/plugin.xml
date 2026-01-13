@@ -9,7 +9,7 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.rob82926.idbrowserintellijplugin.toolWindow.MyToolWindowFactory" anchor="right" id="toolWindow"/>
+        <toolWindow factoryClass="com.github.rob82926.idbrowserintellijplugin.toolWindow.MyToolWindowFactory" anchor="right" id="ID Browser"/>
         <psi.referenceContributor
                 implementation="com.github.rob82926.idbrowserintellijplugin.ReqReferenceContributor"/>
         <applicationConfigurable
