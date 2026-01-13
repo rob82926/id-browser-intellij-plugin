@@ -10,8 +10,8 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow factoryClass="com.github.rob82926.idbrowserintellijplugin.toolWindow.MyToolWindowFactory" anchor="right" id="ID Browser"/>
-        <psi.referenceContributor
-                implementation="com.github.rob82926.idbrowserintellijplugin.ReqReferenceContributor"/>
+        <psi.referenceContributor implementation="com.github.rob82926.idbrowserintellijplugin.ReqReferenceContributor"/>
+
         <applicationConfigurable
                 displayName="ID Browser"
                 parentId="tools"
