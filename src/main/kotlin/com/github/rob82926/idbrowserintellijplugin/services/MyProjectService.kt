@@ -3,14 +3,22 @@ package com.github.rob82926.idbrowserintellijplugin.services
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
+import com.intellij.ui.jcef.JBCefBrowser
 import com.github.rob82926.idbrowserintellijplugin.MyBundle
 
 @Service(Service.Level.PROJECT)
 class MyProjectService(project: Project) {
+    lateinit var browser: JBCefBrowser
 
-    init {
-        thisLogger().info(MyBundle.message("projectService", project.name))
-        thisLogger().warn("Don't forget to remove all non-needed sample code files with their corresponding registration entries in `plugin.xml`.")
+    fun load(url: String) {
+        if (::browser.isInitialized) {
+            browser.loadURL(url)
+        }
+    }
+
+    companion object {
+        fun getInstance(project: Project): MyProjectService =
+            project.getService(MyProjectService::class.java)
     }
 
     fun getRandomNumber() = (1..100).random()
