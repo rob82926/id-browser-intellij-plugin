@@ -9,7 +9,13 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.rob82926.idbrowserintellijplugin.toolWindow.MyToolWindowFactory" anchor="right" id="MyToolWindow"/>
-        <postStartupActivity implementation="com.github.rob82926.idbrowserintellijplugin.startup.MyProjectActivity" />
+        <toolWindow factoryClass="com.github.rob82926.idbrowserintellijplugin.toolWindow.MyToolWindowFactory" anchor="right" id="toolWindow"/>
+        <psi.referenceContributor
+                implementation="com.github.rob82926.idbrowserintellijplugin.ReqReferenceContributor" language="English"/>
+        <applicationConfigurable
+                displayName="ID Browser"
+                parentId="tools"
+                instance="com.github.rob82926.idbrowserintellijplugin.settings.ReqSettingsConfigurable"
+                id="com.github.rob82926.idbrowserintellijplugin"/>
     </extensions>
 </idea-plugin>

@@ -4,7 +4,6 @@ import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.ui.jcef.JBCefBrowser
-import com.github.rob82926.idbrowserintellijplugin.MyBundle
 
 @Service(Service.Level.PROJECT)
 class MyProjectService(project: Project) {
@@ -20,6 +19,4 @@ class MyProjectService(project: Project) {
         fun getInstance(project: Project): MyProjectService =
             project.getService(MyProjectService::class.java)
     }
-
-    fun getRandomNumber() = (1..100).random()
 }
