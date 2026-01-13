@@ -20,8 +20,8 @@ class MyToolWindowFactory : ToolWindowFactory {
     }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val myToolWindow = MyToolWindow(toolWindow)
-        val content = ContentFactory.getInstance().createContent(myToolWindow.getContent(), null, false)
+        val IdLookupBrowserWindow = MyToolWindow(toolWindow)
+        val content = ContentFactory.getInstance().createContent(IdLookupBrowserWindow.getContent(), null, false)
         toolWindow.contentManager.addContent(content)
     }
 

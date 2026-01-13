@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.rob82926.idbrowserintellijplugin</id>
-    <name>id-browser-intellij-plugin</name>
+    <name>id-browser</name>
     <vendor>rob82926</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -9,7 +9,7 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.rob82926.idbrowserintellijplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <toolWindow factoryClass="com.github.rob82926.idbrowserintellijplugin.toolWindow.MyToolWindowFactory" anchor="right" id="MyToolWindow"/>
         <postStartupActivity implementation="com.github.rob82926.idbrowserintellijplugin.startup.MyProjectActivity" />
     </extensions>
 </idea-plugin>
