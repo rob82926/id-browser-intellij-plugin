@@ -9,7 +9,7 @@ import com.intellij.util.ProcessingContext
 class ReqReferenceContributor : PsiReferenceContributor() {
 
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
-        thisLogger().warn("Robin!!! Registering ReqReferenceContributor")
+        thisLogger().warn("Registering ReqReferenceContributor")
 
         registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(),
@@ -33,7 +33,7 @@ class ReqReferenceContributor : PsiReferenceContributor() {
                         val start = match.range.first
                         val end = match.range.last + 1
 
-                        thisLogger().warn("Possible match: '${match.value}' at [$start, $end] in ${element.javaClass.simpleName}")
+                        thisLogger().info("Possible match: '${match.value}' at [$start, $end] in ${element.javaClass.simpleName}")
 
                         // Safety: ensure range is within element bounds
                         if (start >= 0 && end <= text.length && start < end) {

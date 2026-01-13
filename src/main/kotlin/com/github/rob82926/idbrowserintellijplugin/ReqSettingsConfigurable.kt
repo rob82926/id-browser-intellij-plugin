@@ -1,9 +1,13 @@
 package com.github.rob82926.idbrowserintellijplugin.settings
 
+import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.openapi.options.Configurable
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.project.ProjectManager
 import java.awt.BorderLayout
 import javax.swing.*
 import com.intellij.openapi.diagnostic.thisLogger
+import com.intellij.psi.PsiManager
 
 class ReqSettingsConfigurable : Configurable {
 
@@ -41,8 +45,25 @@ class ReqSettingsConfigurable : Configurable {
 
     override fun apply() {
         val state = ReqSettingsState.getInstance()
-        state.regex = regexField?.text ?: ""
-        state.urlTemplate = urlField?.text ?: ""
+        val oldRegex = state.regex
+        val newRegex = regexField?.text ?: ""
+        val newUrl = urlField?.text ?: ""
+
+        // Update state
+        state.regex = newRegex
+        state.urlTemplate = newUrl
+
+        // Trigger refresh if settings changed
+        if (oldRegex != newRegex) {
+            ApplicationManager.getApplication().invokeLater {
+                ProjectManager.getInstance().openProjects.forEach { project ->
+                    // 1. Drop the internal PSI caches so the contributor runs again
+                    PsiManager.getInstance(project).dropPsiCaches()
+                    // 2. Restart highlighting
+                    DaemonCodeAnalyzer.getInstance(project).restart()
+                }
+            }
+        }
     }
 
     override fun reset() {
