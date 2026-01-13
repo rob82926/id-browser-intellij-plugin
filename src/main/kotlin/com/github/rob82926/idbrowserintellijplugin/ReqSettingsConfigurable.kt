@@ -3,6 +3,7 @@ package com.github.rob82926.idbrowserintellijplugin.settings
 import com.intellij.openapi.options.Configurable
 import java.awt.BorderLayout
 import javax.swing.*
+import com.intellij.openapi.diagnostic.thisLogger
 
 class ReqSettingsConfigurable : Configurable {
 
@@ -10,6 +11,8 @@ class ReqSettingsConfigurable : Configurable {
     private var urlField: JTextField? = null
 
     override fun createComponent(): JComponent {
+        thisLogger().warn("Created settings!")
+
         val panel = JPanel()
         panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
 
