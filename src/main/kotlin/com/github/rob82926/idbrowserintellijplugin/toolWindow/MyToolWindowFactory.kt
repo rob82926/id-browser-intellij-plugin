@@ -1,5 +1,6 @@
 package com.github.rob82926.idbrowserintellijplugin.toolWindow
 
+import com.github.rob82926.idbrowserintellijplugin.settings.ReqSettingsState
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.*
 import com.intellij.ui.content.ContentFactory
@@ -13,12 +14,14 @@ import org.cef.browser.CefFrame
 import org.cef.handler.CefLifeSpanHandlerAdapter
 import org.cef.handler.CefRequestHandlerAdapter
 import org.cef.network.CefRequest
+import java.net.URI
 
 class MyToolWindowFactory : ToolWindowFactory {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val browser = JBCefBrowser()
         installExternalLinkHandlers(browser)
+
         val panel = JPanel(BorderLayout())
         panel.add(browser.component, BorderLayout.CENTER)
 
@@ -51,8 +54,8 @@ class MyToolWindowFactory : ToolWindowFactory {
             ): Boolean {
                 val url = request.url ?: return false
 
-                val isExternal = !url.startsWith("file://")
-                if (isExternal) {
+                val openInternal = shouldOpenInternally(url)
+                if (!openInternal) {
                     BrowserUtil.browse(url)
                     return true // cancel navigation in JCEF
                 }
@@ -69,8 +72,8 @@ class MyToolWindowFactory : ToolWindowFactory {
                 targetFrameName: String
             ): Boolean {
                 // Typically triggered by target="_blank" or window.open(...)
-                val isExternal = !targetUrl.startsWith("file://")
-                if (isExternal) {
+                val openInternal = shouldOpenInternally(targetUrl)
+                if (!openInternal) {
                     BrowserUtil.browse(targetUrl)
                     return true // cancel popup (don't open new JCEF window)
                 }
@@ -80,4 +83,44 @@ class MyToolWindowFactory : ToolWindowFactory {
         }, jbCefBrowser.cefBrowser)
     }
 
+    private fun shouldOpenInternally(url: String): Boolean {
+        val template = ReqSettingsState.getInstance().urlTemplate.trim()
+        if (template.isEmpty()) return false
+
+        // Require a placeholder so the "internal site" can be derived deterministically
+        if (!template.contains("%s")) return false
+
+        // Build a stable "prefix" from the template (everything before %s)
+        val marker = "__ID_BROWSER_PLACEHOLDER__"
+        val expanded = template.replace("%s", marker)
+
+        val prefix = expanded.substringBefore(marker)
+        if (prefix.isBlank()) return false
+
+        // Quick wins (handles query-based templates like https://host/path?q=%s)
+        if (url.startsWith(prefix)) return true
+
+        // If prefixes don't match exactly, try a slightly more permissive check based on origin.
+        // This helps when minor formatting differences exist, but still keeps you on the same site.
+        return try {
+            val t = URI(expanded)
+            val u = URI(url)
+
+            val sameScheme = t.scheme.equals(u.scheme, ignoreCase = true)
+            val sameHost = t.host.equals(u.host, ignoreCase = true)
+            val samePort = (t.port.takeIf { it != -1 } ?: defaultPort(t.scheme)) ==
+                    (u.port.takeIf { it != -1 } ?: defaultPort(u.scheme))
+
+            sameScheme && sameHost && samePort && url.startsWith(prefix.substringBefore('?'))
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    private fun defaultPort(scheme: String?): Int =
+        when (scheme?.lowercase()) {
+            "http" -> 80
+            "https" -> 443
+            else -> -1
+        }
 }
