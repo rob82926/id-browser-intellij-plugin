@@ -6,7 +6,6 @@ import com.intellij.openapi.fileTypes.FileType
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.util.ProcessingContext
-import com.intellij.openapi.util.TextRange
 
 class ReqReferenceContributor : PsiReferenceContributor() {
 
@@ -14,7 +13,7 @@ class ReqReferenceContributor : PsiReferenceContributor() {
         thisLogger().warn("Registering ReqReferenceContributor")
 
         registrar.registerReferenceProvider(
-            PlatformPatterns.psiElement(),
+            PlatformPatterns.psiElement(PsiComment::class.java),
             object : PsiReferenceProvider() {
 
                 override fun getReferencesByElement(
@@ -50,7 +49,6 @@ class ReqReferenceContributor : PsiReferenceContributor() {
                         val start = match.range.first
                         val endExclusive = match.range.last + 1
 
-                        // Ensure match is within element bounds
                         if (start >= 0 && endExclusive <= text.length && start < endExclusive) {
                             thisLogger().info(
                                 "Possible match: '${match.value}' at [$start, $endExclusive] " +
